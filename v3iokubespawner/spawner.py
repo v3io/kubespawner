@@ -26,9 +26,9 @@ import escapism
 from jinja2 import Environment, BaseLoader
 
 from .clients import shared_client
-from kubespawner.traitlets import Callable
-from kubespawner.objects import make_pod, make_pvc
-from kubespawner.reflector import NamespacedResourceReflector
+from v3iokubespawner.traitlets import Callable
+from v3iokubespawner.objects import make_pod, make_pvc
+from v3iokubespawner.reflector import NamespacedResourceReflector
 from asyncio import sleep
 from async_generator import async_generator, yield_
 
@@ -1340,10 +1340,10 @@ class KubeSpawner(Spawner):
             fs_gid=fs_gid,
             supplemental_gids=supplemental_gids,
             run_privileged=self.privileged,
-            env=self.get_env(),
+            env=self._expand_all(self.get_env()),
             volumes=self._expand_all(self.volumes),
             volume_mounts=self._expand_all(self.volume_mounts),
-            working_dir=self.working_dir,
+            working_dir=self._expand_all(self.working_dir),
             labels=labels,
             annotations=annotations,
             cpu_limit=self.cpu_limit,
